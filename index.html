@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0d0714">
+    <meta name="description" content="Un mural personal para compartir ideas, proyectos y formas de contacto.">
+    <title>Tu espacio — Mural personal</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d0714;
+        --surface: #1e0c36;
+        --surface-raised: #26113f;
+        --line: rgba(199, 125, 255, .17);
+        --text: #f4f0ff;
+        --muted: #c3b5d6;
+        --accent: #c77dff;
+        --accent-strong: #9d4edd;
+        --mint: #a5f3d0;
+        --radius: 24px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        color: var(--text);
+        background:
+          radial-gradient(ellipse at 12% 4%, rgba(111, 45, 165, .2), transparent 36rem),
+          radial-gradient(ellipse at 92% 34%, rgba(94, 35, 134, .14), transparent 32rem),
+          var(--bg);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid var(--mint);
+        outline-offset: 4px;
+      }
+
+      .page-shell {
+        width: min(1120px, calc(100% - 40px));
+        margin-inline: auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding-block: 28px 42px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--text);
+        font-size: .95rem;
+        font-weight: 750;
+        letter-spacing: .02em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid rgba(199, 125, 255, .4);
+        border-radius: 12px;
+        color: #fff;
+        background: linear-gradient(145deg, #9d4edd, #5d2685);
+        box-shadow: 0 0 22px rgba(157, 78, 221, .25);
+      }
+
+      .brand-mark svg {
+        width: 19px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        font-size: .88rem;
+        text-decoration: none;
+        transition: color .2s ease;
+      }
+
+      .nav-links a:hover {
+        color: #fff;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 13px;
+        border: 1px solid rgba(165, 243, 208, .18);
+        border-radius: 999px;
+        color: #d8ffeb;
+        background: rgba(165, 243, 208, .06);
+        font-size: .78rem;
+        white-space: nowrap;
+      }
+
+      .status-dot {
+        width: 7px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: var(--mint);
+        box-shadow: 0 0 12px rgba(165, 243, 208, .8);
+      }
+
+      main {
+        padding-bottom: 50px;
+      }
+
+      .intro {
+        max-width: 740px;
+        margin-bottom: 32px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 13px;
+        color: var(--accent);
+        font-size: .78rem;
+        font-weight: 750;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow svg {
+        width: 15px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 13px;
+        font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+        font-size: clamp(2.55rem, 7vw, 5rem);
+        font-weight: 720;
+        letter-spacing: -.065em;
+        line-height: 1.03;
+      }
+
+      h1 span {
+        color: var(--accent);
+      }
+
+      .intro-copy {
+        max-width: 570px;
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.12rem);
+      }
+
+      .bento {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        position: relative;
+        min-width: 0;
+        overflow: hidden;
+        padding: 25px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(145deg, rgba(42, 18, 71, .92), rgba(25, 10, 44, .96));
+        box-shadow: 0 12px 40px rgba(0, 0, 0, .16);
+        transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(199, 125, 255, .48);
+        box-shadow: 0 16px 42px rgba(0, 0, 0, .25), 0 0 22px rgba(157, 78, 221, .17);
+      }
+
+      .card h2 {
+        margin-bottom: 12px;
+        font-size: 1.12rem;
+        letter-spacing: -.02em;
+      }
+
+      .card p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: .92rem;
+      }
+
+      .card-label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 19px;
+        color: #e9d6ff;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+      }
+
+      .card-label svg {
+        width: 17px;
+        height: 17px;
+        color: var(--accent);
+      }
+
+      .hero-card {
+        grid-column: span 7;
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background:
+          radial-gradient(circle at 88% 22%, rgba(199, 125, 255, .22), transparent 13rem),
+          linear-gradient(145deg, #2a1247, #1e0c36 75%);
+      }
+
+      .hero-card h2 {
+        max-width: 460px;
+        margin-bottom: 10px;
+        font-size: clamp(1.65rem, 3.7vw, 2.65rem);
+        letter-spacing: -.05em;
+        line-height: 1.13;
+      }
+
+      .hero-card .hero-copy {
+        max-width: 450px;
+      }
+
+      .hero-decoration {
+        position: absolute;
+        right: 24px;
+        bottom: 20px;
+        width: 124px;
+        opacity: .72;
+        pointer-events: none;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 11px;
+        margin-top: 22px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 42px;
+        padding: 10px 15px;
+        border: 1px solid rgba(199, 125, 255, .28);
+        border-radius: 13px;
+        color: #fff;
+        background: rgba(157, 78, 221, .2);
+        font-size: .86rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background .2s ease, border-color .2s ease, transform .2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(199, 125, 255, .65);
+        background: rgba(157, 78, 221, .36);
+      }
+
+      .button svg {
+        width: 16px;
+      }
+
+      .about-card {
+        grid-column: span 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 260px;
+      }
+
+      .about-note {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 24px;
+        color: #e6d6f4;
+        font-size: .84rem;
+      }
+
+      .avatar {
+        display: grid;
+        width: 37px;
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid rgba(199, 125, 255, .3);
+        border-radius: 13px;
+        color: #f3dfff;
+        background: rgba(157, 78, 221, .2);
+      }
+
+      .avatar svg {
+        width: 19px;
+      }
+
+      .projects-card {
+        grid-column: span 7;
+      }
+
+      .project-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .project {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 14px;
+        border: 1px solid rgba(199, 125, 255, .12);
+        border-radius: 15px;
+        background: rgba(13, 7, 20, .28);
+      }
+
+      .project-title {
+        margin: 0 0 3px;
+        color: var(--text);
+        font-size: .9rem;
+        font-weight: 700;
+      }
+
+      .project-type {
+        margin: 0;
+        color: var(--muted);
+        font-size: .77rem;
+      }
+
+      .project-icon {
+        display: grid;
+        flex: 0 0 auto;
+        width: 36px;
+        aspect-ratio: 1;
+        place-items: center;
+        border-radius: 12px;
+        color: var(--accent);
+        background: rgba(157, 78, 221, .15);
+      }
+
+      .project-icon svg {
+        width: 18px;
+      }
+
+      .skills-card {
+        grid-column: span 5;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 20px;
+      }
+
+      .tag {
+        padding: 7px 11px;
+        border: 1px solid rgba(199, 125, 255, .2);
+        border-radius: 999px;
+        color: #ead9fa;
+        background: rgba(157, 78, 221, .12);
+        font-size: .78rem;
+        font-weight: 600;
+      }
+
+      .contact-card {
+        grid-column: span 8;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+      }
+
+      .contact-card h2 {
+        margin-bottom: 7px;
+      }
+
+      .contact-card .card-label {
+        margin-bottom: 13px;
+      }
+
+      .contact-card .button {
+        flex: 0 0 auto;
+      }
+
+      .time-card {
+        grid-column: span 4;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 160px;
+      }
+
+      .clock {
+        margin: 3px 0 0;
+        color: #fff;
+        font-size: clamp(1.7rem, 4vw, 2.35rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        letter-spacing: -.05em;
+        line-height: 1.2;
+      }
+
+      .date {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: .85rem;
+        text-transform: capitalize;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 4px 0 30px;
+        color: #a99ab9;
+        font-size: .78rem;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      @media (max-width: 760px) {
+        .page-shell {
+          width: min(100% - 32px, 600px);
+        }
+
+        .topbar {
+          padding-block: 21px 38px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hero-card,
+        .about-card,
+        .projects-card,
+        .skills-card,
+        .contact-card,
+        .time-card {
+          grid-column: span 12;
+        }
+
+        .hero-card,
+        .about-card {
+          min-height: 230px;
+        }
+
+        .contact-card {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .time-card {
+          min-height: 140px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .page-shell {
+          width: calc(100% - 24px);
+        }
+
+        .topbar {
+          gap: 10px;
+        }
+
+        .status {
+          gap: 7px;
+          padding: 7px 9px;
+          font-size: .7rem;
+        }
+
+        .card {
+          padding: 20px;
+          border-radius: 20px;
+        }
+
+        .hero-decoration {
+          right: 5px;
+          width: 95px;
+          opacity: .4;
+        }
+
+        footer {
+          flex-direction: column;
+          gap: 5px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: .01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#inicio" aria-label="Tu espacio, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.4 9.6 20.5 12l-6.1 2.4L12 20.5l-2.4-6.1L3.5 12l6.1-2.4L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </span>
+          <span>Tu espacio</span>
+        </a>
+        <nav class="nav-links" aria-label="Navegación principal">
+          <a href="#sobre-mi">Sobre mí</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+        <div class="status"><span class="status-dot" aria-hidden="true"></span> Disponible para colaborar</div>
+      </header>
+
+      <main id="inicio">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m19 16 .9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16Z" fill="currentColor"/></svg>
+            Un rincón en internet
+          </p>
+          <h1 id="page-title">Hola, soy <span>Tu nombre.</span></h1>
+          <p class="intro-copy">Ideas, proyectos y cosas que me inspiran, reunidos en un solo lugar. Estoy creando algo bonito, útil y hecho con intención.</p>
+        </section>
+
+        <section class="bento" aria-label="Mural personal">
+          <article class="card hero-card">
+            <div>
+              <div class="card-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 14.4 9.6 20.5 12l-6.1 2.4L12 20.5l-2.4-6.1L3.5 12l6.1-2.4L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Bienvenida
+              </div>
+              <h2>Diseño ideas y las convierto en experiencias.</h2>
+              <p class="hero-copy">Este es mi pequeño mural: un vistazo a lo que hago, lo que estoy aprendiendo y lo que me mueve.</p>
+            </div>
+            <div class="hero-actions">
+              <a class="button" href="#proyectos">
+                Ver proyectos
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="button" href="#contacto">Hablemos</a>
+            </div>
+            <svg class="hero-decoration" viewBox="0 0 140 140" fill="none" aria-hidden="true">
+              <path d="M70 9 82.8 55.2 129 68 82.8 80.8 70 127 57.2 80.8 11 68l46.2-12.8L70 9Z" stroke="#C77DFF" stroke-width="1.4"/>
+              <circle cx="70" cy="68" r="27" stroke="#C77DFF" stroke-opacity=".55" stroke-width="1.2"/>
+              <circle cx="70" cy="68" r="4" fill="#EAD9FA"/>
+            </svg>
+          </article>
+
+          <article class="card about-card" id="sobre-mi">
+            <div>
+              <div class="card-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Sobre mí
+              </div>
+              <h2>Curiosidad primero. Siempre.</h2>
+              <p>Soy una persona creativa a la que le encanta aprender, resolver problemas y colaborar en ideas que hagan la diferencia. Aquí pronto encontrarás un poco más de mi historia.</p>
+            </div>
+            <div class="about-note">
+              <span class="avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="m12 3 2.1 5.9L20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-2.1L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </span>
+              <span>Aprendiendo algo nuevo cada día</span>
+            </div>
+          </article>
+
+          <article class="card projects-card" id="proyectos">
+            <div class="card-label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              Proyectos destacados
+            </div>
+            <div class="project-list">
+              <div class="project">
+                <div>
+                  <p class="project-title">Un proyecto que te entusiasma</p>
+                  <p class="project-type">Diseño · Desarrollo</p>
+                </div>
+                <span class="project-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.4 9.6 20.5 12l-6.1 2.4L12 20.5l-2.4-6.1L3.5 12l6.1-2.4L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="project">
+                <div>
+                  <p class="project-title">Una idea en construcción</p>
+                  <p class="project-type">Comunidad · Creatividad</p>
+                </div>
+                <span class="project-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V4.5h16v15H4Z" stroke="currentColor" stroke-width="1.6"/><path d="m7 15 3-3 2 2 4-5 2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="project">
+                <div>
+                  <p class="project-title">Algo que quiero compartir</p>
+                  <p class="project-type">Exploración · Aprendizaje</p>
+                </div>
+                <span class="project-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18m9-9H3m15.4-6.4-12.8 12.8m12.8 0L5.6 5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card skills-card">
+            <div class="card-label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Lo que uso y exploro
+            </div>
+            <h2>Mi caja de herramientas</h2>
+            <p>Tecnologías, habilidades e intereses que forman parte de mi día a día.</p>
+            <div class="tag-list" aria-label="Habilidades">
+              <span class="tag">Diseño</span>
+              <span class="tag">Creatividad</span>
+              <span class="tag">HTML &amp; CSS</span>
+              <span class="tag">Trabajo en equipo</span>
+              <span class="tag">Aprendizaje</span>
+            </div>
+          </article>
+
+          <article class="card contact-card" id="contacto">
+            <div>
+              <div class="card-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m5 7 7 5 7-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Contacto
+              </div>
+              <h2>¿Tienes una idea? Conversemos.</h2>
+              <p>Siempre hay espacio para una buena conversación y nuevas colaboraciones.</p>
+            </div>
+            <a class="button" href="mailto:tu-correo@ejemplo.com">
+              Escríbeme
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="card time-card" aria-label="Fecha y hora local">
+            <div class="card-label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              En este momento
+            </div>
+            <div>
+              <p class="clock" id="clock" aria-label="Hora local"></p>
+              <p class="date" id="date"></p>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer>
+        <p>Hecho con intención y un poquito de magia violeta.</p>
+        <p>© <span id="year"></span> Tu nombre</p>
+      </footer>
+    </div>
+
+    <script>
+      const clock = document.querySelector("#clock");
+      const date = document.querySelector("#date");
+      const year = document.querySelector("#year");
+
+      function updateLocalTime() {
+        const now = new Date();
+        clock.textContent = new Intl.DateTimeFormat("es", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(now);
+        date.textContent = new Intl.DateTimeFormat("es", {
+          weekday: "long",
+          day: "numeric",
+          month: "long"
+        }).format(now);
+        year.textContent = now.getFullYear();
+      }
+
+      updateLocalTime();
+      window.setInterval(updateLocalTime, 30_000);
+    </script>
+  </body>
+</html>
